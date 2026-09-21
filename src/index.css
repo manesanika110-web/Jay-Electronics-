@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #B5263F;
+    --color-primary-dark: #8F1D32;
+    --color-logo-grey: #8A8A8A;
+    --color-dark-grey: #333333;
+    --color-light-grey: #F5F5F5;
+    --color-bg-light: #F5F5F5;
+    --color-bg-white: #FFFFFF;
+    --color-dark-text: #222222;
+    --color-text-gray: #555555;
+    --color-hover: #8F1D32;
+    --color-border: #E0E0E0;
+    --color-card-bg: #FFFFFF;
+    --color-card-border: #E0E0E0;
+  }
+
+  body {
+    background-color: var(--color-bg-light);
+    color: var(--color-dark-text);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Custom Utilities for Theme Colors */
+.bg-primary { background-color: #B5263F; }
+.bg-primary-dark { background-color: #8F1D32; }
+.bg-dark-grey { background-color: #333333; }
+.bg-light-grey { background-color: #F5F5F5; }
+
+.text-dark { color: #222222; }
+.text-primary { color: #B5263F; }
+.text-primary-dark { color: #8F1D32; }
+.text-logo-grey { color: #8A8A8A; }
+.text-gray-desc { color: #555555; }
+
+.border-theme { border-color: #E0E0E0; }
+.border-primary { border-color: #B5263F; }
+
+/* Page Navigation Transition */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn, .page-transition {
+  animation: pageFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Clean JE Logo Wrapper preserving original logo appearance */
+.je-logo-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.je-logo-wrapper img {
+  display: block;
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #B5263F;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8F1D32;
+}
+
+
