@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Phone, Menu, X, ChevronDown, ChevronRight, Lock, UserCheck, Shield } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { Phone, Menu, X, ChevronDown, ChevronRight, Shield } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function Navbar() {
@@ -18,7 +17,6 @@ export default function Navbar() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
   const { openQuoteModal } = useData();
 
   const aboutTimeoutRef = useRef(null);
@@ -260,25 +258,6 @@ export default function Navbar() {
               <span>Get a Quote</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
-            {isAdmin ? (
-              <div className="flex items-center gap-2 ml-2 pl-2 border-l border-[#E0E0E0]">
-                <Link
-                  to="/admin"
-                  className="bg-[#8F1D32] hover:bg-[#B5263F] text-white text-xs px-3 py-1.5 rounded flex items-center gap-1 font-semibold"
-                >
-                  <UserCheck className="w-3.5 h-3.5" />
-                  <span>Admin Panel</span>
-                </Link>
-              </div>
-            ) : (
-              <Link
-                to="/admin"
-                className="text-[#8A8A8A] hover:text-[#B5263F] p-1.5 rounded hover:bg-[#F5F5F5] transition"
-                title="Admin Login"
-              >
-                <Lock className="w-4 h-4" />
-              </Link>
-            )}
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -436,21 +415,6 @@ export default function Navbar() {
                 <span>Get a Quote</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
-              {isAdmin ? (
-                <Link
-                  to="/admin"
-                  className="w-full bg-[#8F1D32] text-white font-bold text-sm py-2 rounded text-center block mt-1"
-                >
-                  Go to Admin Panel
-                </Link>
-              ) : (
-                <Link
-                  to="/admin"
-                  className="text-xs text-[#8A8A8A] text-center py-2 hover:text-[#B5263F] block"
-                >
-                  Admin Portal Login
-                </Link>
-              )}
             </div>
           </div>
         )}

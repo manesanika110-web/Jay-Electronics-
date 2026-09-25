@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { 
@@ -10,23 +10,26 @@ import {
 import Modal from '../components/Modal';
 
 export default function AdminDashboard() {
-  const { isAdmin, login, logout } = useAuth();
+  const { isAdmin, currentUser, loading, logout } = useAuth();
+  const navigate = useNavigate();
   const { 
-    blogs, projects, services, gallery, messages, firebaseConnected,
+    blogs, projects, services, gallery, contactMessages, contacts, quoteRequests, messages, firebaseConnected,
     addBlog, updateBlog, deleteBlog,
     addProject, updateProject, deleteProject,
     addService, updateService, deleteService,
     addGalleryItem, updateGalleryItem, deleteGalleryItem,
+    updateContactStatus, updateQuoteStatus, deleteContact, deleteQuoteRequest,
     updateMessageStatus, deleteMessage
   } = useData();
 
+  const handleLogout = async () => {
+    await logout();
+    navigate('/admin-login', { replace: true });
+  };
+
   // Navigation tab state
   const [activeTab, setActiveTab] = useState('dashboard');
-
-  // Login form state
-  const [emailInput, setEmailInput] = useState('');
-  const [passInput, setPassInput] = useState('admin123');
-  const [loginError, setLoginError] = useState('');
+  const [msgFilter, setMsgFilter] = useState('all');
 
   // Notification message
   const [successMsg, setSuccessMsg] = useState('');
@@ -88,22 +91,6 @@ export default function AdminDashboard() {
   // MESSAGE DELETE STATE
   // ==========================================
   const [deletingMsgId, setDeletingMsgId] = useState(null);
-
-  // Handle Login Submission
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoginError('');
-    const res = await login(emailInput, passInput);
-    if (!res.success) {
-      setLoginError(res.error || 'Authentication failed');
-    }
-  };
-
-  // Handle Logout & Immediate Redirect to User Panel Homepage
-  const handleLogout = () => {
-    logout();
-    navigate('/', { replace: true });
-  };
 
   // Image Upload Handlers
   const handleBlogImageUpload = (e) => {
@@ -325,73 +312,21 @@ export default function AdminDashboard() {
     setIsGalleryModalOpen(false);
   };
 
-  // ==================================================
-  // PROTECTED LOGIN VIEW
-  // ==================================================
-  if (!isAdmin) {
+  // 1. Session verification check while loading
+  if (loading) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center p-4">
-        <div className="bg-white border-2 border-[#B5263F] rounded-2xl p-8 max-w-md w-full shadow-2xl space-y-6">
-          <div className="text-center space-y-2">
-            <div className="w-14 h-14 rounded-2xl bg-[#333333] border-2 border-[#B5263F] flex items-center justify-center text-[#B5263F] mx-auto">
-              <Lock className="w-7 h-7" />
-            </div>
-            <h2 className="text-2xl font-extrabold text-[#222222] font-['Outfit']">
-              Admin Portal Login
-            </h2>
-            <p className="text-xs text-gray-500">
-              JAY ELECTRONICS PVT LTD Management Control System
-            </p>
-          </div>
-
-          {loginError && (
-            <div className="bg-red-50 border border-red-400 text-red-700 text-xs p-3 rounded-lg flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0" />
-              <span>{loginError}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-[#222222] uppercase mb-1">
-                Admin Email / Username
-              </label>
-              <input
-                type="text"
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                placeholder="admin@jayelectronics.com"
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E0E0E0] focus:border-[#B5263F] focus:outline-none text-sm bg-white"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-[#222222] uppercase mb-1">
-                Security Password
-              </label>
-              <input
-                type="password"
-                value={passInput}
-                onChange={(e) => setPassInput(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E0E0E0] focus:border-[#B5263F] focus:outline-none text-sm bg-white"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#B5263F] hover:bg-[#8F1D32] text-white font-extrabold py-3 rounded-lg shadow transition cursor-pointer"
-            >
-              Log In to Admin Dashboard
-            </button>
-          </form>
-
-          <div className="bg-[#F5F5F5] border border-[#E0E0E0] p-3 rounded-lg text-[11px] text-gray-600">
-            <span className="font-bold text-[#B5263F]">Demo Access:</span> Email: <code className="text-[#222222]">admin@jayelectronics.com</code> | Password: <code className="text-[#222222]">admin123</code>
-          </div>
+      <div className="min-h-screen bg-[#F4F6F9] flex flex-col items-center justify-center p-4">
+        <div className="flex items-center gap-3 bg-white p-6 rounded-2xl border border-gray-200 shadow-md">
+          <div className="w-6 h-6 border-3 border-[#B5263F] border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-sm font-bold text-[#1E293B]">Verifying Admin Session...</span>
         </div>
       </div>
     );
+  }
+
+  // 2. Protect Route: Redirect to /admin-login if not authenticated as admin
+  if (!isAdmin) {
+    return <Navigate to="/admin-login" replace />;
   }
 
   // ==================================================
@@ -537,7 +472,7 @@ export default function AdminDashboard() {
               <div className="pt-6 border-t border-[#E2E8F0] space-y-3 relative z-10">
                 <div className="text-[11px] text-gray-500 space-y-1 px-1">
                   <span className="font-extrabold text-[#1E293B] block">Admin Session:</span>
-                  <span className="truncate block font-mono text-[#B5263F] font-semibold">admin@jayelectronics.com</span>
+                  <span className="truncate block font-mono text-[#B5263F] font-semibold">{currentUser?.email || 'Authorized Administrator'}</span>
                 </div>
               </div>
 
@@ -1145,65 +1080,140 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB 7: MESSAGES INBOX */}
+          {/* TAB 7: MESSAGES INBOX & QUOTE MANAGEMENT */}
           {activeTab === 'messages' && (
-            <div className="bg-white border border-[#E0E0E0] rounded-2xl p-6 shadow-sm space-y-4">
-              <h3 className="text-lg font-bold text-[#222222] font-['Outfit']">Customer Inquiries Inbox</h3>
+            <div className="bg-white border border-[#E0E0E0] rounded-2xl p-6 shadow-sm space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E0E0E0] pb-4">
+                <div>
+                  <h3 className="text-lg font-extrabold text-[#222222] font-['Outfit']">Customer Inquiries Inbox</h3>
+                  <p className="text-xs text-gray-500 font-medium">Real-time submissions from public Contact Form and "Get a Quote" modal requests.</p>
+                </div>
+
+                {/* Filter Pills */}
+                <div className="flex flex-wrap items-center gap-1.5 bg-[#F5F5F5] p-1 rounded-xl border border-[#E0E0E0]">
+                  {[
+                    { id: 'all', label: `All (${messages.length})` },
+                    { id: 'contact_messages', label: `contact_messages (${(contactMessages || []).length})` },
+                    { id: 'contacts', label: `contacts (${(contacts || []).length})` },
+                    { id: 'quote_requests', label: `quote_requests (${(quoteRequests || []).length})` },
+                    { id: 'unread', label: `Unread (${messages.filter(m => m.status !== 'Responded' && m.status !== 'responded').length})` }
+                  ].map((filter) => (
+                    <button
+                      key={filter.id}
+                      onClick={() => setMsgFilter(filter.id)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        msgFilter === filter.id
+                          ? 'bg-[#B5263F] text-white shadow-xs'
+                          : 'text-gray-600 hover:text-[#222222]'
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               
               {messages.length === 0 ? (
-                <p className="text-xs text-gray-500">No contact messages received yet.</p>
+                <div className="text-center py-12 bg-[#F5F5F5] rounded-xl border border-[#E0E0E0]">
+                  <Mail className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                  <p className="text-xs font-bold text-gray-600">No customer inquiries or quote requests in database yet.</p>
+                </div>
               ) : (
-                <div className="space-y-3">
-                  {messages.map((m) => (
-                    <div key={m.id} className="bg-[#F5F5F5] p-4 rounded-xl border border-[#E0E0E0] space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E0E0E0] pb-2">
-                        <div>
-                          <span className="font-extrabold text-[#222222] text-sm">{m.name}</span>
-                          <span className="text-xs text-[#B5263F] font-semibold ml-2">({m.subject})</span>
+                <div className="space-y-4">
+                  {messages
+                    .filter((m) => {
+                      if (msgFilter === 'contact_messages') return m.collectionName === 'contact_messages';
+                      if (msgFilter === 'contacts') return m.collectionName === 'contacts';
+                      if (msgFilter === 'quote_requests' || msgFilter === 'quoteRequests') return m.collectionName === 'quote_requests' || m.collectionName === 'quoteRequests' || m.type === 'Quote Request';
+                      if (msgFilter === 'unread') return m.status !== 'Responded' && m.status !== 'responded';
+                      return true;
+                    })
+                    .map((m) => {
+                      const isQuote = m.type === 'Quote Request';
+                      return (
+                        <div key={m.id} className="bg-[#F8FAFC] p-4 sm:p-5 rounded-xl border border-[#E2E8F0] space-y-3 shadow-2xs hover:border-gray-300 transition">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-200 pb-3">
+                            <div className="flex items-center gap-2.5 flex-wrap">
+                              <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-md border ${
+                                isQuote 
+                                  ? 'bg-purple-50 text-purple-700 border-purple-200' 
+                                  : 'bg-blue-50 text-blue-700 border-blue-200'
+                              }`}>
+                                {isQuote ? '⚡ Quote Request' : '📧 Contact Message'}
+                              </span>
+                              <span className="font-extrabold text-[#1E293B] text-sm">{m.name}</span>
+                              <span className="text-xs text-[#B5263F] font-bold">
+                                • {m.subject || m.service || 'General Inquiry'}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 text-xs shrink-0">
+                              <span className="text-gray-400 font-mono text-[11px]">
+                                {m.createdAt ? new Date(m.createdAt).toLocaleString() : m.date}
+                              </span>
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase border ${
+                                m.status === 'Responded' 
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300' 
+                                  : 'bg-amber-50 text-amber-700 border-amber-300 animate-pulse'
+                              }`}>
+                                {m.status || 'Unread'}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700 bg-white p-3 rounded-lg border border-gray-200 font-medium">
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-400">Email:</span>
+                              <a href={`mailto:${m.email}`} className="font-bold text-[#B5263F] hover:underline truncate">{m.email}</a>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-400">Phone:</span>
+                              <a href={`tel:${m.phone}`} className="font-bold text-[#1E293B] hover:underline">{m.phone}</a>
+                            </div>
+                          </div>
+
+                          <div className="bg-white p-3.5 rounded-lg border border-gray-200 space-y-1">
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Requirement / Note Details:</span>
+                            <p className="text-xs text-[#334155] leading-relaxed font-normal whitespace-pre-wrap">
+                              "{m.message}"
+                            </p>
+                          </div>
+
+                          <div className="flex items-center justify-end gap-2 pt-1">
+                            {m.status !== 'Responded' ? (
+                              <button
+                                onClick={() => {
+                                  updateMessageStatus(m.id, 'Responded');
+                                  triggerNotify('Marked inquiry as Responded!');
+                                }}
+                                className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                              >
+                                <Check className="w-3.5 h-3.5" />
+                                <span>Mark as Responded</span>
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  updateMessageStatus(m.id, 'Unread');
+                                  triggerNotify('Marked inquiry as Unread!');
+                                }}
+                                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold transition cursor-pointer"
+                              >
+                                <span>Mark Unread</span>
+                              </button>
+                            )}
+
+                            <button
+                              onClick={() => setDeletingMsgId(m.id)}
+                              className="px-3 py-1.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              <span>Delete</span>
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 text-xs">
-                          <span className="text-gray-400">{m.date}</span>
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                            m.status === 'Responded' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-[#B5263F]'
-                          }`}>
-                            {m.status || 'Unread'}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="text-xs text-gray-600 space-x-3">
-                        <span>📧 <strong>Email:</strong> {m.email}</span>
-                        <span>📞 <strong>Phone:</strong> {m.phone}</span>
-                      </div>
-
-                      <p className="text-xs text-[#555555] bg-white p-3 rounded border border-[#E0E0E0] leading-relaxed">
-                        "{m.message}"
-                      </p>
-
-                      <div className="flex items-center justify-end gap-2 pt-1">
-                        {m.status !== 'Responded' && (
-                          <button
-                            onClick={() => {
-                              updateMessageStatus(m.id, 'Responded');
-                              triggerNotify('Marked inquiry as Responded!');
-                            }}
-                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center gap-1 cursor-pointer"
-                          >
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Mark Responded</span>
-                          </button>
-                        )}
-
-                        <button
-                          onClick={() => setDeletingMsgId(m.id)}
-                          className="px-3 py-1 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded text-xs font-bold flex items-center gap-1 cursor-pointer"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                          <span>Delete</span>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                    })}
                 </div>
               )}
             </div>

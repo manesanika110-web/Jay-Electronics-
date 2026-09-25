@@ -1,15 +1,15 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyForJayElectronicsPvtLtd12345",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "jay-electronics.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "jay-electronics",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "jay-electronics.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789012",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789012:web:demo123456789"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDSypUCiyKblxzFxUwaTUyvWNt5GCfpNUE",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "jepl-website.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "jepl-website",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "jepl-website.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "118646212901",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:118646212901:web:16d86015ff55500843f2cc"
 };
 
 // Initialize Firebase safely

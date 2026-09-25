@@ -114,7 +114,6 @@ export default function Footer() {
           <p>© JAY ELECTRONICS PVT LTD. All Rights Reserved.</p>
           <div className="flex items-center gap-4">
             <span className="text-[#B5263F] font-semibold">Surveillance • Telecom • Networking • A/V</span>
-            <Link to="/admin" className="text-gray-400 hover:text-[#B5263F] transition">Admin Portal</Link>
           </div>
         </div>
       </div>

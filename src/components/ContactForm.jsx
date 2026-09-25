@@ -3,7 +3,7 @@ import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function ContactForm() {
-  const { addContactMessage } = useData();
+  const { addContactInquiry, addContactMessage } = useData();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -16,6 +16,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const validate = () => {
     const errs = {};
@@ -29,8 +30,8 @@ export default function ContactForm() {
 
     if (!formData.phone.trim()) {
       errs.phone = 'Phone number is required.';
-    } else if (!/^[0-9+\-\s]{8,15}$/.test(formData.phone.trim())) {
-      errs.phone = 'Please enter a valid phone number (e.g. 9822012345).';
+    } else if (formData.phone.trim().length !== 10) {
+      errs.phone = 'Please enter a valid 10-digit phone number.';
     }
 
     if (!formData.message.trim()) {
@@ -45,19 +46,40 @@ export default function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      const numericValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, phone: numericValue }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
+    if (submitError) {
+      setSubmitError('');
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setLoading(true);
-    setTimeout(() => {
-      addContactMessage(formData);
+    setSubmitError('');
+    setSubmitted(false);
+
+    try {
+      const submitFn = addContactMessage || addContactInquiry;
+      await submitFn({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        subject: formData.subject,
+        message: formData.message.trim(),
+        createdAt: new Date().toISOString(),
+        type: 'Contact Message'
+      });
+
       setLoading(false);
       setSubmitted(true);
       setFormData({
@@ -68,7 +90,12 @@ export default function ContactForm() {
         message: ''
       });
       setErrors({});
-    }, 600);
+    } catch (err) {
+      console.error('Firebase submission error:', err);
+      setLoading(false);
+      const displayError = err?.message || (typeof err === 'string' ? err : String(err));
+      setSubmitError(displayError);
+    }
   };
 
   return (
@@ -95,6 +122,16 @@ export default function ContactForm() {
             >
               Send Another Inquiry
             </button>
+          </div>
+        </div>
+      )}
+
+      {submitError && (
+        <div className="bg-red-50 border-2 border-red-500/40 text-red-900 rounded-xl p-4 mb-6 flex items-start gap-3 animate-fadeIn">
+          <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <h4 className="font-bold text-red-950">Submission Error</h4>
+            <p className="text-red-800">{submitError}</p>
           </div>
         </div>
       )}
@@ -154,9 +191,12 @@ export default function ContactForm() {
             <input
               type="tel"
               name="phone"
+              maxLength={10}
+              pattern="[0-9]*"
+              inputMode="numeric"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+91 98220 12345"
+              placeholder="e.g. 9822012345"
               className={`w-full px-4 py-2.5 rounded-lg bg-white text-[#222222] border text-sm focus:outline-none transition ${
                 errors.phone ? 'border-red-500 bg-red-50/20' : 'border-[#E0E0E0] focus:border-[#B5263F]'
               }`}

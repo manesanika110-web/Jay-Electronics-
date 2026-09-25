@@ -18,6 +18,7 @@ import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/AdminLogin';
 
 function AppContent() {
   const { isQuoteModalOpen, closeQuoteModal } = useData();
@@ -39,6 +40,7 @@ function AppContent() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </PageTransition>

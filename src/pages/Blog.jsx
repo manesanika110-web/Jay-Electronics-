@@ -54,8 +54,8 @@ export default function Blog() {
         </div>
       </div>
 
-      {/* Main Layout: Feed Grid (Center feed + Right sidebar on desktop) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Main Layout: Feed Grid (Center feed + Fixed Right sidebar on desktop) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left / Main Feed Column */}
         <div className="lg:col-span-8 space-y-6">
@@ -86,8 +86,8 @@ export default function Blog() {
 
         </div>
 
-        {/* Right Sidebar Column (Search & Category filter) */}
-        <div className="lg:col-span-4 space-y-6">
+        {/* Right Sidebar Column (Fixed Sticky Position on Desktop) */}
+        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto pr-1">
           
           {/* Search Box */}
           <div className="bg-white border border-[#E0E0E0] rounded-2xl p-5 shadow-sm space-y-3">

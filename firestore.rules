@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Public contact message submissions
+    match /contact_messages/{messageId} {
+      allow create: if request.resource.data.name is string && request.resource.data.phone is string;
+      allow read, update, delete: if true;
+    }
+
+    // Public quote request submissions
+    match /quote_requests/{requestId} {
+      allow create: if request.resource.data.name is string && request.resource.data.phone is string;
+      allow read, update, delete: if true;
+    }
+
+    // Legacy contacts and quote requests
+    match /contacts/{contactId} {
+      allow read, write: if true;
+    }
+    
+    match /quoteRequests/{quoteId} {
+      allow read, write: if true;
+    }
+
+    // Default fallback rule
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
