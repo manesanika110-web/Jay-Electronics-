@@ -37,12 +37,12 @@ export default function FloatingActions() {
       <button
         onClick={openQuoteModal}
         aria-label="Request Quote"
-        className="relative group flex items-center justify-center w-14 h-14 bg-[#B5263F] hover:bg-[#8F1D32] text-white rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 border-2 border-white/20 cursor-pointer"
+        className="relative group flex items-center justify-center w-14 h-14 bg-gradient-to-r from-[#800000] to-[#5C0000] hover:from-[#5C0000] hover:to-[#111111] text-white rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 border-2 border-white/20 cursor-pointer"
         title="Request Quote"
       >
-        <span className="absolute -inset-1 rounded-full bg-[#B5263F] opacity-35 group-hover:opacity-75 animate-ping pointer-events-none duration-1000"></span>
+        <span className="absolute -inset-1 rounded-full bg-[#800000] opacity-35 group-hover:opacity-75 animate-ping pointer-events-none duration-1000"></span>
         <FileText className="w-7 h-7 text-white relative z-10 drop-shadow-sm" />
-        <span className="absolute right-16 top-1/2 -translate-y-1/2 bg-[#222222] text-white text-xs font-semibold px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-lg pointer-events-none border border-gray-700">
+        <span className="absolute right-16 top-1/2 -translate-y-1/2 bg-[#0B182B] text-white text-xs font-semibold px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-lg pointer-events-none border border-slate-700">
           📝 Request Quote
         </span>
       </button>

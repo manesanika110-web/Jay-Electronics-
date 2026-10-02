@@ -239,6 +239,105 @@ export const solutionsData = {
     majorProjects: [
       'Post-Commissioning AMC & Maintenance for City Surveillance, Collectorates, Hospitals, and Enterprises across Sangli, Kolhapur, and Pune.'
     ]
+  },
+  'city-surveillance-projects': {
+    title: 'City Surveillance Projects',
+    slug: 'city-surveillance-projects',
+    category: 'Surveillance Infrastructure',
+    iconName: 'ShieldCheck',
+    tagline: 'Turnkey municipal security networks, automated traffic monitoring, city-wide fiber networks & central command centers.',
+    overview: 'Jay Electronics Pvt. Ltd. is a pioneer in municipal-scale City Surveillance implementation. We have successfully deployed comprehensive surveillance infrastructures for Panvel, Tasgaon, Hinjewadi, Ichalkaranji, Paithan, and Kolhapur, featuring thousands of cameras linked to central police command rooms.',
+    authorizedBrands: [
+      { name: 'CP PLUS (Aditya Infotech Ltd.)', detail: 'Authorized Dealer - Indigenous CP PLUS electronic video security & advanced AI-driven video surveillance hardware & software.' },
+      { name: 'Matrix Comsec Pvt. Ltd.', detail: 'Authorized Dealer - Enterprise-grade IP video surveillance nodes, NVRs, and VMS integration.' }
+    ],
+    keyFeatures: [
+      'City-Wide High-Speed Optical Fiber Network Grid',
+      'Pan-Tilt-Zoom (PTZ) & ANPR License Plate Cameras',
+      'Police Central Command & Control Center Construction',
+      'Automated Traffic Violation & Speed Detection Nodes',
+      'Redundant Server Backup & Failover Storage Architecture',
+      'IP-Based Public Address (PA) Alert Integrations'
+    ],
+    majorProjects: [
+      'Paithan City (Sambhajinagar): City Surveillance Project with 91 ANPR, PTZ, and Varifocal 4MP Cameras.',
+      'Tasgaon City (Sangli): 96 High-Res 4MP Cameras & IP-Based Public Address (PA) System.',
+      'Hinjewadi (Pune): 96 High-Res 4MP City Surveillance Cameras.',
+      'Ichalkaranji (Kolhapur): 261 High-Res 4MP City Surveillance Cameras.',
+      'Kolhapur City Revamp: 165 PTZ & Varifocal 4MP Cameras.'
+    ]
+  },
+  'structured-cabling': {
+    title: 'Structured LAN / Telecom Cabling',
+    slug: 'structured-cabling',
+    category: 'Infrastructure',
+    iconName: 'Network',
+    tagline: 'Standardized copper & optical fiber cabling, server rack assembly, and channel certification.',
+    overview: 'Jay Electronics delivers standardized structured cabling systems providing the critical physical foundation for voice, data, and video networks across corporate campuses, hospitals, government complexes, and data centers.',
+    authorizedBrands: [
+      { name: 'D-Link & Schneider Electric', detail: 'Cat6/Cat6A copper infrastructure & patch panels.' },
+      { name: 'CommScope / Molex', detail: 'Fiber patch panels, splice trays & raceway racks.' }
+    ],
+    keyFeatures: [
+      'High-Performance Cat6 / Cat6A Gigabit Copper Cabling',
+      'Single-Mode & Multi-Mode Optical Fiber Cable Deployment',
+      'Server Rack Layout, Cable Trays & Raceway Infrastructure',
+      'Precision Patch Panel Termination & Port Color-Coding',
+      'Fluke Channel Certification & OTDR Fiber Optical Testing',
+      'Neat Clean-Room Cable Management & Wire Labeling'
+    ],
+    majorProjects: [
+      'Collector Office Sangli: 300 Structured LAN Ports Cabling.',
+      'Prakash Hospital & Research Centre (Islampur): 500 LAN Ports Enterprise Network.',
+      'Government Departmental Offices across Sangli & Kolhapur.'
+    ]
+  },
+  'office-automation': {
+    title: 'Office Automation Systems',
+    slug: 'office-automation',
+    category: 'Building Automation',
+    iconName: 'Lock',
+    tagline: 'Smart attendance biometrics, RFID access control, boom barriers, and intelligent office safety.',
+    overview: 'Integrate cutting-edge office automation and security solutions to enhance workplace productivity and secure physical boundaries. Solutions encompass face biometrics, RFID smart cards, automated boom barriers, and digital visitor management.',
+    authorizedBrands: [
+      { name: 'Matrix Comsec Pvt. Ltd.', detail: 'Enterprise biometrics & door controllers.' },
+      { name: 'CP PLUS', detail: 'Smart access controllers & video door intercoms.' }
+    ],
+    keyFeatures: [
+      'Biometric Face, Fingerprint & Contactless Palm Readers',
+      'Electromagnetic Door Locks & Turnstile Gate Control',
+      'Automated Vehicle Boom Barriers & UHF RFID Readers',
+      'Smart Office Energy & Automated Lighting Control Modules',
+      'Cloud-Based Visitor Management & Security Audit Logs'
+    ],
+    majorProjects: [
+      'MIDC Manufacturing Facilities in Kolhapur & Sangli.',
+      'Corporate Head Offices & Financial Institutions across Maharashtra.'
+    ]
+  },
+  'telecommunication': {
+    title: 'Telecommunication Projects',
+    slug: 'telecommunication',
+    category: 'Telecommunications',
+    iconName: 'Headphones',
+    tagline: 'Industrial telecom infrastructure, optical fiber transmission lines, and high-capacity PBX exchanges.',
+    overview: 'Backed by 35+ years of founding telecommunication engineering expertise, Jay Electronics executes major telecom projects for public utilities, municipal corporations, heavy industrial plants, and telecom operators.',
+    authorizedBrands: [
+      { name: 'Matrix Comsec Pvt. Ltd.', detail: 'Authorized Dealer - Enterprise IP-PBX switches & VoIP gateways.' },
+      { name: 'Panasonic', detail: 'Digital PBX telecom exchanges & key phones.' }
+    ],
+    keyFeatures: [
+      'Industrial Radio Communication & Antenna Repeater Systems',
+      'Underground & Overhead Long-Haul Optical Fiber Cable Transmission',
+      'Central Telephone Exchange Cabling & Switch Migration',
+      'UPS Power Backup Infrastructure for Mission-Critical Exchanges',
+      'Telecom Field Cabinets, Outdoor MDF Racks & Lightning Protection'
+    ],
+    majorProjects: [
+      'Prakash Hospital & Research Centre (Islampur): 500 Telephone Ports Telecom Project.',
+      'Unichem Laboratories Ltd (Kagal MIDC, Kolhapur): 500 Intercom Ports EPABX Project.',
+      'Regional Telecom Exchange Upgrades in Sangli & Kolhapur.'
+    ]
   }
 };
 

@@ -22,22 +22,22 @@ export default function Modal({ isOpen, onClose, title, children }) {
 
   return createPortal(
     <div 
-      className="fixed inset-0 z-[9999] bg-black/65 flex items-center justify-center p-3 sm:p-6 animate-fadeIn overflow-hidden"
+      className="fixed inset-0 z-[9999] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn overflow-hidden"
       onClick={onClose}
     >
-      {/* Modal Container - Large Horizontal Card Centered */}
+      {/* Modal Container */}
       <div 
-        className="relative bg-white border-2 border-[#B5263F] rounded-2xl shadow-2xl w-full max-w-4xl sm:max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden my-auto"
+        className="relative bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl w-full max-w-4xl sm:max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden my-auto animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header - Fixed at Top */}
-        <div className="bg-[#333333] text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-[#B5263F]/40 shrink-0">
-          <h3 className="text-base sm:text-lg font-bold font-['Outfit'] text-white pr-3 leading-snug">
+        <div className="bg-[#F8E6E6] text-slate-900 px-5 sm:px-6 py-4 flex items-center justify-between border-b border-[#800000]/20 shrink-0">
+          <h3 className="text-base sm:text-lg font-extrabold font-['Outfit'] text-[#5C0000] pr-3 leading-snug">
             {title}
           </h3>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-300 hover:text-white hover:bg-[#B5263F] transition cursor-pointer shrink-0 ml-2"
+            className="p-1.5 rounded-xl text-[#5C0000] hover:text-white hover:bg-[#800000] transition-all cursor-pointer shrink-0 ml-2"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -53,5 +53,3 @@ export default function Modal({ isOpen, onClose, title, children }) {
     document.body
   );
 }
-
-
