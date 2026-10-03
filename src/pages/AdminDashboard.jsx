@@ -211,22 +211,22 @@ export default function AdminDashboard() {
 
   const handleSaveBanner = (e) => {
     e.preventDefault();
-    if (!bannerTitle.trim()) {
-      alert('Please enter a headline title for the banner.');
+    if (!bannerImageUrl || !bannerImageUrl.trim()) {
+      alert('Please select or enter a banner background image.');
       return;
     }
 
     const payload = {
       imageUrl: bannerImageUrl,
-      badgeText: bannerBadgeText,
-      title: bannerTitle,
-      btn1Text: bannerBtn1Text,
-      btn1Action: bannerBtn1Action,
-      btn2Text: bannerBtn2Text,
-      btn2Action: bannerBtn2Action,
-      btn3Text: bannerBtn3Text,
-      btn3Action: bannerBtn3Action,
-      order: Number(bannerOrder),
+      badgeText: bannerBadgeText || '',
+      title: bannerTitle || '',
+      btn1Text: bannerBtn1Text || '',
+      btn1Action: bannerBtn1Action || '',
+      btn2Text: bannerBtn2Text || '',
+      btn2Action: bannerBtn2Action || '',
+      btn3Text: bannerBtn3Text || '',
+      btn3Action: bannerBtn3Action || '',
+      order: Number(bannerOrder) || 1,
       isActive: Boolean(bannerIsActive)
     };
 
@@ -3155,17 +3155,16 @@ export default function AdminDashboard() {
             />
           </div>
 
-          {/* Main Title */}
+          {/* Main Title (Optional) */}
           <div>
             <label className="text-xs font-bold text-[#1E293B] block mb-1">
-              Main Headline Title <span className="text-rose-500">*</span>
+              Main Headline Title <span className="text-[#6B6B6B] font-normal text-[11px]">(Optional)</span>
             </label>
             <textarea
               rows={3}
-              placeholder="e.g. Securing Businesses. Empowering Connectivity. Delivering Excellence Since 1989."
+              placeholder="Main Headline Title (Optional)"
               value={bannerTitle}
               onChange={(e) => setBannerTitle(e.target.value)}
-              required
               className="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#800000]/30 font-['Outfit'] font-semibold"
             ></textarea>
           </div>

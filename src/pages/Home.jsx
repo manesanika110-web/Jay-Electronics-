@@ -217,21 +217,21 @@ export default function Home() {
       {/* ==================================================
           1. HERO CAROUSEL SECTION (Clean Slider Images Only)
       ================================================== */}
-      <section className="relative min-h-[220px] xs:min-h-[280px] sm:min-h-[480px] lg:min-h-[520px] flex items-center justify-center bg-[#5C0000] overflow-hidden">
+      <section className="relative w-full aspect-[16/9] sm:aspect-auto min-h-[200px] xs:min-h-[240px] sm:min-h-[480px] lg:min-h-[520px] flex items-center justify-center bg-[#5C0000] overflow-hidden">
         {/* Carousel Background Images (Clear & Bright) */}
         {displayBanners.map((banner, idx) => (
           <div key={banner.id || idx} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === activeIndex ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
             <img
               src={banner.imageUrl || '/images/cctv_hero_bg.jpg'}
               alt={`JAY Electronics Hero ${idx + 1}`}
-              className="w-full h-full object-contain sm:object-cover object-center max-sm:bg-[#5C0000] opacity-100 brightness-105 contrast-105"
+              className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105"
             />
           </div>
         ))}
 
         {/* Carousel Indicator Dots */}
         {displayBanners.length > 1 && (
-          <div className="absolute bottom-4 sm:bottom-6 z-20 flex items-center justify-center gap-2">
+          <div className="absolute bottom-3 sm:bottom-6 z-20 flex items-center justify-center gap-2">
             {displayBanners.map((_, idx) => (
               <button
                 key={idx}
